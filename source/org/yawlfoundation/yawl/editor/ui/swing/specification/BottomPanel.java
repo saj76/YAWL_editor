@@ -35,9 +35,12 @@ public class BottomPanel extends JTabbedPane implements GraphStateListener {
 
     private static final int NOTES_PANEL_INDEX = 0;
     private static final int PROBLEM_PANEL_INDEX = 1;
+    private static final int ALLOY_PANEL_INDEX = 2;
 
     private final NotesPanel notesPanel;
     private final ProblemPanel problemPanel;
+    private final AlloyPanel alloyPanel;
+    private final AlloyValidationsResultPanel alloyProblemsPanel;
 
 
     public BottomPanel() {
@@ -48,6 +51,12 @@ public class BottomPanel extends JTabbedPane implements GraphStateListener {
 
         problemPanel = new ProblemPanel(this);
         addTab("Problems", problemPanel);
+        
+        alloyPanel = new AlloyPanel(this);
+        addTab("Alloy", alloyPanel);
+
+        alloyProblemsPanel = new AlloyValidationsResultPanel(this);
+        addTab("Alloy Problems", alloyProblemsPanel);
 
         setEnabledAt(NOTES_PANEL_INDEX, false);
         setSelectedComponent(problemPanel);
@@ -94,13 +103,30 @@ public class BottomPanel extends JTabbedPane implements GraphStateListener {
         setSelectedComponent(notesPanel);
         notesPanel.setPreferredSize(this.getSize());
     }
+    
+    public void selectAlloyTab() {
+        setSelectedComponent(alloyPanel);
+        alloyPanel.setPreferredSize(this.getSize());
+    }
 
     public void selectProblemsTab() {
         setSelectedComponent(problemPanel);
         setTitleAt(PROBLEM_PANEL_INDEX, problemPanel.getTitle());
     }
 
+    public void selectAlloyProblemsTab() {
+        setSelectedComponent(problemPanel);
+        setTitleAt(PROBLEM_PANEL_INDEX, problemPanel.getTitle());
+    }
+    
+    public void setAlloyCode(String code) {
+        alloyPanel.setText(code);
+    }
+
     public void setProblemList(String title, List<ValidationMessage> problems) {
         problemPanel.setProblemList(title, problems);
+    }
+    public void setAlloyProblemsList(String title, List<ValidationMessage> problems) {
+        alloyProblemsPanel.setProblemList(title, problems);
     }
 }
